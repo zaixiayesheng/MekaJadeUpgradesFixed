@@ -1,0 +1,32 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+runs
+run-data
+
+repo
+/.vscode
+/generated
+/src/generated/resources/.cache
+
+# 本地依赖 jar（Jade / Mekanism / 扩展 / 增强解放），不随仓库分发
+libs/
