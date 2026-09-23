@@ -48,8 +48,8 @@ File: `config/mekajadeupgrades_fixed-common.toml`
 JDK 21 required.
 
 1. Put the compile-time jars into `libs/` in the project root (they are not redistributed with this repository):
-   - Jade (`Jade-1.21.1-NeoForge-*.jar`)
-   - Mekanism (`Mekanism-1.21.1-*.jar`)
+   - Jade (`jade-1.21.1-neoforge-*.jar`)
+   - Mekanism (`mekanism-1.21.1-*.jar`)
    - Mekanism Extras (`mekanism_extras-1.21.1-*.jar`)
    - Mekanism: Empowered Unleashed (`MekanismEmpoweredUnleashed-*.jar`)
 2. Run:

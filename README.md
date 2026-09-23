@@ -48,8 +48,8 @@
 环境：JDK 21。
 
 1. 把编译用的 jar 放进项目根目录的 `libs/`（这些是本模组的编译依赖，不随仓库分发）：
-   - Jade（`Jade-1.21.1-NeoForge-*.jar`）
-   - Mekanism（`Mekanism-1.21.1-*.jar`）
+   - Jade（`jade-1.21.1-neoforge-*.jar`）
+   - Mekanism（`mekanism-1.21.1-*.jar`）
    - 通用机械：扩展（`mekanism_extras-1.21.1-*.jar`）
    - 通用机械：增强·解放（`MekanismEmpoweredUnleashed-*.jar`）
 2. 执行：
