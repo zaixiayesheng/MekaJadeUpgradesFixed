@@ -2,17 +2,32 @@
 
 > 用 Jade 看向通用机械的机器时，在提示框里显示这台机器已装上的升级图标和数量。
 >
-> 这是 **MekaJadeUpgrades**（作者 DevDyna）的修复分支。
+> 这是 **MekaJadeUpgrades**（作者 DevDyna）的修复分支，**非官方**，与原版作者无关、也未获其背书。
 >
 > English: [README_EN.md](./README_EN.md)
 
 ---
 
-## 修了什么
+## 来源与署名
+
+| | |
+|---|---|
+| 原版模组 | **MekaJadeUpgrades (Mekanism addon)**，作者 **DevDyna** |
+| CurseForge | https://www.curseforge.com/minecraft/mc-mods/mekajadeupgrades |
+| GitHub | https://github.com/DevDyna/MekaJadeUpgrades |
+| 原版协议 | **MIT License，Copyright (c) 2024-2030 DevDyna** |
+| 本分支协议 | MIT；原作者的版权声明保留在 [LICENSE](./LICENSE) 里，并附上分支作者的版权行 |
+| 本分支源码 | https://github.com/zaixiayesheng/MekaJadeUpgradesFixed |
+
+## 与原版的区别
+
+改动的只有下面这几处，图标、升级支持、工程结构等其余部分都来自原版：
 
 - **提示框溢出**：原版给每个图标加固定横向偏移来定位，但 Jade 的行宽只按元素自身尺寸计算、偏移不计入宽度，于是绘制位置跑到面板外面——升级种类一多（装了通用机械扩展、增强解放之后）就出框。现在改成**按宽度自动换行**、横向不再加偏移，任何分辨率、任何 GUI 缩放下都不会溢出。
 - **图标与数字对齐**：保留竖直方向的 1~2 像素微调，图标和数量文字在同一水平线上。
-- **版本适配**：直接识别合并版 **Mekanism: Empowered Unleashed**（新 id `mekanism_empowered_unleashed`），旧 id `mekanism_empowered` 也一并保留，所以不再需要合并版 jar 里的兼容桥接。
+- **版本适配**：直接识别合并版 **Mekanism: Empowered Unleashed**（新 id `mekanism_empowered_unleashed`），旧 id `mekanism_empowered` 也一并保留。
+- **同时装了原版时自动停用原版**：配置项 `disableMekaJadeUpgrades`（默认开启），避免升级那一行显示两遍。
+- **只保留 Jade 提示框部分**：本分支只包含原版里负责 Jade 提示框的代码，其余原版代码未包含。
 
 ## 更新日志
 
@@ -62,5 +77,7 @@ gradlew build
 
 ## 许可与署名
 
-- 基于 [MekaJadeUpgrades](https://github.com/DevDyna/MekaJadeUpgrades) 1.3（MIT，Copyright © DevDyna）修改
-- 本分支修改：Copyright © 2026 zaixiayesheng，MIT License
+- 原版 [MekaJadeUpgrades](https://github.com/DevDyna/MekaJadeUpgrades)：MIT License，Copyright (c) 2024-2030 DevDyna
+- 本分支：MIT License，Copyright (c) 2026 zaixiayesheng
+- 完整协议文本见 [LICENSE](./LICENSE)，其中同时保留了原作者的版权声明
+- 除上面「与原版的区别」里列出的改动之外，其余代码、图标与资源均来自原版

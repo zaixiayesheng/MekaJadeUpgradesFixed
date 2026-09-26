@@ -2,17 +2,32 @@
 
 > Shows the upgrades installed in a Mekanism machine in the Jade tooltip.
 >
-> A fixed fork of **MekaJadeUpgrades** by DevDyna.
+> An **unofficial** fixed fork of **MekaJadeUpgrades** by DevDyna. Not affiliated with or endorsed by the original author.
 >
 > 中文说明：[README.md](./README.md)
 
 ---
 
-## What was fixed
+## Credit / based on
+
+| | |
+|---|---|
+| Original mod | **MekaJadeUpgrades (Mekanism addon)** by **DevDyna** |
+| CurseForge | https://www.curseforge.com/minecraft/mc-mods/mekajadeupgrades |
+| GitHub | https://github.com/DevDyna/MekaJadeUpgrades |
+| Original license | **MIT License, Copyright (c) 2024-2030 DevDyna** |
+| This fork | MIT; the original copyright notice is kept in [LICENSE](./LICENSE) next to the fork author's line |
+| Fork source | https://github.com/zaixiayesheng/MekaJadeUpgradesFixed |
+
+## Differences from the original
+
+Only the points below were changed — icons, upgrade support and project layout all come from the original mod:
 
 - **Tooltip overflow**: the original positioned every icon with a fixed horizontal offset, but Jade only counts element sizes when measuring a line — the offset is not part of the width, so icons were drawn past the panel edge. With enough upgrade types installed (Mekanism Extras, Empowered Unleashed) the row ran out of the box. The fork wraps rows **by measured width** and applies no horizontal offset, so nothing overflows at any resolution or GUI scale.
 - **Icon/count alignment**: the small vertical offsets are kept so icons and their counts sit on the same line.
-- **Version support**: detects the merged **Mekanism: Empowered Unleashed** (new id `mekanism_empowered_unleashed`) directly, while still accepting the legacy `mekanism_empowered` id — the compatibility shim inside the merged jar is no longer needed.
+- **Version support**: detects the merged **Mekanism: Empowered Unleashed** (new id `mekanism_empowered_unleashed`) directly, while still accepting the legacy `mekanism_empowered` id.
+- **Disables the original automatically** when both mods are installed (config `disableMekaJadeUpgrades`, default true), so the upgrade row is never drawn twice.
+- **Slimmed down**: this fork only contains the Jade tooltip part of the original mod plus the fixes above; the rest of the original's code is not included.
 
 ## Requirements
 
@@ -62,5 +77,7 @@ The jar is written to `build/libs/`.
 
 ## License and credits
 
-- Based on [MekaJadeUpgrades](https://github.com/DevDyna/MekaJadeUpgrades) 1.3 (MIT, Copyright © DevDyna)
-- Fork changes: Copyright © 2026 zaixiayesheng, MIT License
+- Original [MekaJadeUpgrades](https://github.com/DevDyna/MekaJadeUpgrades): MIT License, Copyright (c) 2024-2030 DevDyna
+- This fork: MIT License, Copyright (c) 2026 zaixiayesheng
+- The full license text is in [LICENSE](./LICENSE); it keeps the original copyright notice alongside the fork author's line
+- Apart from the changes listed under "Differences from the original", all code, icons and assets come from the original mod
