@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.devdyna.mekajadeupgradefix.mixin",
+  "refmap": "mekajadeupgrades_fixed.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "MixinOriginalUpgradeProvider"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

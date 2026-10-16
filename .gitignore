@@ -1,0 +1,34 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+runs
+run-data
+
+repo
+/.vscode
+/generated
+/src/generated/resources/.cache
+
+# 本地依赖 jar（Jade / Mekanism / 扩展 / Kotlin for Forge / 增强解放）与
+# 由它们生成的本地 maven 仓库，都不随仓库分发
+libs/
+libs-maven/

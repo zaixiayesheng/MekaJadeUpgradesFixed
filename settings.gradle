@@ -1,0 +1,53 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven { url = 'https://maven.neoforged.net/releases' }
+    }
+}
+
+rootProject.name = 'mekajadeupgrades_fixed-1.20.1'
+
+// ---------------------------------------------------------------------------
+// libs/ -> libs-maven/：把本地 jar 变成「模块坐标」
+//
+// 为什么需要这一步：1.20.1 的正式版模组 jar 是 SRG 名，而 dev 环境跑的是
+// Mojmap 名。只有把依赖写成模块坐标（modImplementation '组:名:版本'），
+// MDG 的 legacyforge 才会替我们做 SRG↔Mojmap 重映射；直接 implementation
+// fileTree('libs') 会在 dev 运行时抛 NoSuchMethodError（net.minecraft.Util.m_137492_）。
+//
+// 所以构建开始前先照下表把 libs/ 里的 jar 复制成 maven 目录结构。
+// 加新依赖：把 jar 放进 libs/，在下面表里加一行 [jar 相对路径, group, artifact, version]，
+// 然后在 build.gradle 的 dependencies 里加一条 modImplementation '组:名:版本'。
+// libs/ 与 libs-maven/ 都不入版本控制（见 .gitignore）。
+// ---------------------------------------------------------------------------
+def localDeps = [
+        ['libs/jade-1.20.1-forge.jar',                           'local.jade',           'jade',                         '11.13.3'],
+        ['libs/mekanism-10.4.16.80.jar',                         'local.mekanism',       'mekanism',                     '10.4.16.80'],
+        ['libs/mekanism-generators-10.4.16.80.jar',              'local.mekanism',       'mekanism_generators',          '10.4.16.80'],
+        ['libs/mekanism_extras-1.20.1-1.5.0.jar',                'local.mekanism',       'mekanism_extras',              '1.5.0'],
+        ['libs/kotlinforforge-4.12.0-all.jar',                   'local.kotlinforforge', 'kotlinforforge',               '4.12.0'],
+        ['libs/MekanismEmpoweredUnleashed-1.20.1-20.1-1.0.0.jar', 'local.meu',           'mekanism_empowered_unleashed', '20.1-1.0.0']
+]
+
+localDeps.each { entry ->
+    def src = file(entry[0])
+    if (!src.exists()) {
+        return
+    }
+    def targetDir = new File(rootDir, "libs-maven/${entry[1].replace('.', '/')}/${entry[2]}/${entry[3]}")
+    targetDir.mkdirs()
+    def jarTarget = new File(targetDir, "${entry[2]}-${entry[3]}.jar")
+    if (!jarTarget.exists() || jarTarget.length() != src.length()) {
+        jarTarget.bytes = src.bytes
+    }
+    def pomTarget = new File(targetDir, "${entry[2]}-${entry[3]}.pom")
+    pomTarget.setText("""<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>${entry[1]}</groupId>
+  <artifactId>${entry[2]}</artifactId>
+  <version>${entry[3]}</version>
+  <packaging>jar</packaging>
+</project>
+""", 'UTF-8')
+}
