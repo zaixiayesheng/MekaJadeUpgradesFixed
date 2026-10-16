@@ -30,6 +30,19 @@ import dev.lapis256.mekanism_empowered.common.init.MekEmpItems;
 public enum UpgradeProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
     INSTANCE;
 
+    /** -Dmekajadeupgrades.debug 打开排版调试日志。 */
+    private static final boolean DEBUG = System.getProperty("mekajadeupgrades.debug") != null;
+
+    private static boolean renderWarned = false;
+
+    /** 认不出的升级、或附属模组的类与方法对不上时，日志里说一次就够了。 */
+    private static void warnOnce(Throwable e) {
+        if (renderWarned)
+            return;
+        renderWarned = true;
+        Main.LOGGER.warn("升级图标渲染失败，已退回占位图标（只提示这一次）", e);
+    }
+
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         CompoundTag tag = accessor.getServerData();
@@ -95,7 +108,7 @@ public enum UpgradeProvider implements IBlockComponentProvider, IServerDataProvi
             tooltip.add(row);
         }
 
-        if (System.getProperty("mekajadeupgrades.debug") != null) {
+        if (DEBUG) {
             Main.LOGGER.info("[debug] tooltip lines={} measuredMax={} cap={} rows={}",
                     tooltip.size(), maxWidth, maxWidth, rowWidths);
         }
@@ -112,8 +125,11 @@ public enum UpgradeProvider implements IBlockComponentProvider, IServerDataProvi
                     .translate(new Vec2(0, -2))
                     .message(null);
 
-        } catch (NullPointerException e) {
-            // catch eventual crashes with a dummy item render
+        } catch (Throwable e) {
+            // 兜底：认不出的升级（getUpgrade 返回 null）、或附属模组的类与方法对不上
+            // （合并版被重构、只装了原版 Empowered 等），一律退回占位图标，
+            // 绝不让渲染路径往外抛异常。
+            warnOnce(e);
             return IElementHelper.get()
                     .item(new ItemStack(Items.BARRIER), 0.55f)
                     .size(new Vec2(10, 10))
@@ -133,12 +149,18 @@ public enum UpgradeProvider implements IBlockComponentProvider, IServerDataProvi
     @Override
     public void appendServerData(CompoundTag data, BlockAccessor accessor) {
 
-        TileEntityMekanism be = (TileEntityMekanism) accessor.getBlockEntity();
+        // BlockTile 的泛型约束保证方块实体是 TileEntityMekanism；第三方用原始类型继承时
+        // 可能不是，所以这里做一次判断，而不是硬转。
+        if (!(accessor.getBlockEntity() instanceof TileEntityMekanism be))
+            return;
+
+        var component = be.getComponent();
+        if (component == null)
+            return;
 
         for (Upgrade upgrade : Upgrade.values())
-            if (be.getComponent() != null)
-                if (be.getComponent().isUpgradeInstalled(upgrade))
-                    data.putInt(upgrade.getSerializedName(), be.getComponent().getUpgrades(upgrade));
+            if (component.isUpgradeInstalled(upgrade))
+                data.putInt(upgrade.getSerializedName(), component.getUpgrades(upgrade));
 
     }
 

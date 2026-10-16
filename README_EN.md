@@ -33,13 +33,21 @@ Only the points below were changed — icons, upgrade support and project layout
 
 | File | Notes |
 |---|---|
-| `mekajadeupgrades_fixed-1.0.0.jar` | This mod |
+| `mekajadeupgrades_fixed-*.jar` | This mod |
 | Jade | required |
 | Mekanism 1.21.1 (10.7.19+) | required |
 | Mekanism Extras | optional, shows its upgrade icons too |
 | Mekanism: Empowered Unleashed | optional, shows the empowered upgrade icons |
 
 ## Changelog
+
+### 1.0.1
+
+- No longer crashes at startup when the original changes a method name or signature (both mixins now use `require = 0`)
+- Upgrades it cannot resolve, or addon APIs that no longer line up, fall back to the placeholder icon and log once instead of throwing into the render path
+- Disabling the original MekaJadeUpgrades is now stated in the log
+- Added a Chinese name for the entry shown in the Jade config screen
+- The original MekaJadeUpgrades is now declared as an optional dependency
 
 ### 1.0.0
 
